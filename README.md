@@ -180,9 +180,9 @@ IMAGE_MANAGER_QUALITY=85
 - Laravel ^11.0 or ^12.0
 - Intervention Image ^3.0
 
-## Contributing
+## Credits
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+- [Mohamed ElSaka](https://github.com/melsaka)
 
 ## License
 
