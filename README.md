@@ -22,14 +22,7 @@ composer require melsaka/laravel-image-manager
 Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --provider="Melsaka\ImageManager\ImageManagerServiceProvider" --tag="image-manager-config"
-```
-
-Publish and run the migration:
-
-```bash
-php artisan vendor:publish --provider="Melsaka\ImageManager\ImageManagerServiceProvider" --tag="image-manager-migrations"
-php artisan migrate
+php artisan vendor:publish --provider="Melsaka\ImageManager\ImageManagerServiceProvider" --tag="image-manager"
 ```
 
 ## Configuration
