@@ -117,9 +117,11 @@ trait HasImages
     public function getImage(string $imageType = 'default', bool $loaded = false): ?Image
     {
         if ($loaded) {
-            return $this->images
-                ->where('type', $imageType)
-                ->first();
+            return $this->relationLoaded('images') ?
+                $this->images
+                    ->where('type', $imageType)
+                    ->first():
+                null;
         }
 
         return $this->images()
