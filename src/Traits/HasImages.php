@@ -26,6 +26,25 @@ trait HasImages
     }
 
     /**
+     * Get the supported image types for this model.
+     *
+     * Each key represents the image type (e.g., 'logo', 'banner'),
+     * and the value defines the relationship type:
+     * - 'singular' means only one image of this type can be associated.
+     * - 'multiple' could be used if the model supports multiple images of that type.
+     *
+     * @return array<string, string>  An associative array of supported image types and their modes.
+     */
+    public static function supportedImages(): array
+    {
+        return [
+            // 'logo'   => 'singular',
+            // 'gallery' => 'multiple',
+        ];
+    }
+
+
+    /**
      * Define a polymorphic one-to-many relationship to the Image model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -288,19 +307,27 @@ trait HasImages
     public function deleteImagesByName(array $types, array $names): bool
     {
         try {
-            return $this->images()
+            $imageMissing = false;
+
+            $this->images()
                 ->whereIn('type', $types)
-                ->chunk(100, function ($images) use($names){
+                ->chunk(100, function ($images) use($names, &$imageMissing){
                     $images = $images->whereIn('name', $names);
 
                     if (! $images->count()) {
-                        throw new \Exception(__("There's no images with any of these names"));
+                        $imageMissing = true;
                     }
 
                     $images->each(function ($image) {
                         $image->delete();
                     });
                 });
+
+            if ($imageMissing) {
+                throw new \Exception(__("There's no images with any of these names"));
+            }
+
+            return true;
         } catch (\Exception $e) {
             report($e);
 
